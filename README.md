@@ -1,4 +1,4 @@
-# enconv.sh File Converter
+# enconv.sh file encoding converter
 File encoding converter for file 
 
 ##Usage
