@@ -1,4 +1,4 @@
-# enconv.sh file encoding converter
+# enconv file encoding converter
 File encoding converter for unix environments
 
 ## Install
