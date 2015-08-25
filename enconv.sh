@@ -94,6 +94,7 @@ filescount=0
 filesconvcount=0
 for curfile in $(find "$directory" $recursivecmd -name "*$extension")
 do 
+
 	enc="$(file -b --mime-encoding $curfile)"
 
 	if [ "$enc" = "$from" ]; then
