@@ -6,6 +6,7 @@ frompresent=0
 topresent=0
 recursive=0
 quiet=0
+force=0
 summary=1
 
 while [[ $# > 0 ]]
@@ -31,6 +32,10 @@ do
 	    -t|--to)
 	    to="$2"
 	    topresent=1
+	    shift # past argument
+	    ;;
+	    --force)
+	    force=1
 	    shift # past argument
 	    ;;
 	    -r|--recursive)
@@ -90,19 +95,46 @@ filesconvcount=0
 for curfile in $(find "$directory" $recursivecmd -name "*$extension")
 do 
 	enc="$(file -b --mime-encoding $curfile)"
-	filescount=$((filescount+1))
+
 	if [ "$enc" = "$from" ]; then
-		# Documentation
-		# http://mindspill.net/computing/linux-notes/determine-and-change-file-character-encoding/
-		iconv -f $from -t $to -o $curfile.tmp $curfile
-		mv $curfile.tmp $curfile
-		filesconvcount=$((filesconvcount+1))
-		if [[ $quiet == 0 ]]; then
-			echo "The file $curfile was converted from $enc to $to successfuly"
+
+		filescount=$((filescount+1))
+		doit=0
+
+		if [[ $force == 1 ]]; then
+			doit=1
+		fi
+
+		echo "1: $doit"
+
+		if [[ $doit == 0 ]]; then
+			echo "Convert the file $curfile from $enc to $to? Y/n"
+			read answer
+			if [[ $answer == 'y' || $answer == 'Y' || $answer == 'yes' || $answer == 'YES' ]]; then
+				doit=1
+			fi
+		fi
+
+		echo "2: $doit"
+
+		if [[ $doit == 1 ]]; then
+			# Documentation
+			# http://mindspill.net/computing/linux-notes/determine-and-change-file-character-encoding/
+			iconv -f $from -t $to -o $curfile.tmp $curfile
+			mv $curfile.tmp $curfile
+			filesconvcount=$((filesconvcount+1))
+
+			if [[ $quiet == 0 ]]; then
+				echo "The file $curfile was converted from $enc to $to successfuly"
+			fi
 		fi
 	fi
 done
 
 if [[ $summary == 1 ]]; then
-	echo "$filescount files were found and $filesconvcount were converted"
+	if [[ $filescount > 0 ]]; then
+		echo "$filescount files were found and $filesconvcount were converted"
+	else
+		echo "$filescount files were found"
+	fi
 fi
