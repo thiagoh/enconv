@@ -105,8 +105,6 @@ do
 			doit=1
 		fi
 
-		echo "1: $doit"
-
 		if [[ $doit == 0 ]]; then
 			echo "Convert the file $curfile from $enc to $to? Y/n"
 			read answer
@@ -114,8 +112,6 @@ do
 				doit=1
 			fi
 		fi
-
-		echo "2: $doit"
 
 		if [[ $doit == 1 ]]; then
 			# Documentation
