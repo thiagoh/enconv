@@ -18,6 +18,9 @@ enconv -d /home/foo/example/directory -e ".java" -f "iso-8859-1" -t "utf-8"
 # to convert all .txt files from us-ascii to utf-8 run
 enconv -d /home/foo/example/directory -e ".txt" -f "us-ascii" -t "utf-8"
 
-# to convert all RECURSIVELY .txt files from us-ascii to utf-8 run
+# to convert all RECURSIVELY .txt files from us-ascii to utf-8 run (interatively asking about every files)
 enconv -r -d /home/foo/example/directory -e ".txt" -f "us-ascii" -t "utf-8"
+
+# to convert all RECURSIVELY .txt files from us-ascii to utf-8 run (non-interatively)
+enconv --force -r -d /home/foo/example/directory -e ".txt" -f "us-ascii" -t "utf-8"
 ```
